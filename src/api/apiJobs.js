@@ -1,7 +1,7 @@
 import supabaseClient from "@/utils/supabase";
 
 export async function getJobs(tokens, {location,company_id,searchQuery} ) {
-    const supabase = await supabaseClient(token);
+    const supabase = await supabaseClient(tokens);
 
     let query = supabase.from("jobs").select("*, company:companies(name, logo_url), saved:saved_jobs(id)");
 
@@ -24,6 +24,35 @@ export async function getJobs(tokens, {location,company_id,searchQuery} ) {
         return null;
     }
 
-    console.log(`i love you`);
     return data;
+}
+
+export async function saveJob(tokens, {alreadySaved}, saveData ) {
+    const supabase = await supabaseClient(tokens);
+
+    if(alreadySaved){
+        const {data, error:deleteError} = await supabase
+        .from("saved_jobs")
+        .delete()
+        .eq("job_id",saveData.job_id);
+
+        if(deleteError){
+            console.error("Error deleting saved Jobs:", deleteError);
+            return null;
+        }
+        return data
+    }else{
+        const {data, error:insertError} = await supabase
+        .from("saved_jobs")
+        .insert([saveData])
+        .select();
+
+        console.log(`I love u`);
+        if(insertError){
+            console.error("Error fetching Jobs:", insertError);
+            return null;
+        }
+        return data;
+
+    }
 }
