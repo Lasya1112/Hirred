@@ -41,17 +41,18 @@ const Header = () => {
             {/* add a condition */}
             {user?.unsafeMetadata?.role === "Recruiter" && (
               <Link to="/post-jobs">
-                <Button variant='destructive' className='rounded-full'>
+                <Button variant="destructive" className="rounded-full">
                   < PenBox size={20} className="mr-2"/>
                   Post a Job
                 </Button>
               </Link>
             )}
             <UserButton appearance={{
-              elements:{
-                avatarBox: "w-10 h-10",
+              elements: {
+                avatarBox: "w-40 h-40",
               },
-            }}>
+            }}
+            >
               <UserButton.MenuItems>
                 <UserButton.Link
                 label="My Jobs"

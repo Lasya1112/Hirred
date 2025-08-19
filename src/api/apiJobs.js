@@ -20,7 +20,7 @@ export async function getJobs(tokens, {location,company_id,searchQuery} ) {
     const {data,error} = await query
 
     if(error){
-        console.error("Error fetching Jobs:", error);
+        console.error("Error fetching Jobs", error);
         return null;
     }
 
@@ -37,7 +37,7 @@ export async function saveJob(tokens, {alreadySaved}, saveData ) {
         .eq("job_id",saveData.job_id);
 
         if(deleteError){
-            console.error("Error deleting saved Jobs:", deleteError);
+            console.error("Error deleting saved Jobs", deleteError);
             return null;
         }
         return data
@@ -55,4 +55,36 @@ export async function saveJob(tokens, {alreadySaved}, saveData ) {
         return data;
 
     }
+}
+
+export async function getSingleJob(token, {job_id}){
+    const supabase = await supabaseClient(token);
+
+    const {data, error} = await supabase
+    .from("jobs")
+    .select("*, company:companies(name, logo_url), applications: applications(*)")
+    .eq("id",job_id)
+    .single();
+
+    if(error){
+        console.error("Error fetching job", error);
+        return null;
+    }
+    return data;
+}
+
+export async function updateHiringStatus(token, {job_id}, isOpen){
+    const supabase = await supabaseClient(token);
+
+    const {data, error} = await supabase
+    .from("jobs")
+    .update({isOpen})
+    .eq("id",job_id)
+    .select();
+
+    if(error){
+        console.error("Error updating jobs", error);
+        return null;
+    }
+    return data;
 }

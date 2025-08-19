@@ -49,6 +49,12 @@ const JobListing = () => {
     if(query) setSearchQuery(query);
   };
 
+  const clearFilters = () => {
+    setSearchQuery("");
+    setCompany_id("");
+    setLocation("");
+  };
+
   if(!isLoaded){
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7"/>;
   }
@@ -72,7 +78,7 @@ const JobListing = () => {
       </Button>
     </form>
     
-    <div>
+    <div className="flex flex-col sm:flex-row gap-2">
       <Select value={location} onValueChange={(value)=>setLocation(value)}>
         <SelectTrigger>
           <SelectValue placeholder="Filter by Location" />
@@ -90,22 +96,24 @@ const JobListing = () => {
         </SelectContent>
       </Select>
 
-      {/* <Select value={company_id} onValueChange={(value)=>setCompany_id(value)}>
+      <Select value={company_id} onValueChange={(value) => setCompany_id(value)}>
         <SelectTrigger>
           <SelectValue placeholder="Filter by Company" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {companies.map(({name, id}) =>{
-              return (
-                <SelectItem key={name} value={id}>
-                  {name}
-                </SelectItem>
-              );
-            })}
+            {(companies || []).map(({ name, id }) => (
+              <SelectItem key={id} value={id.toString()}>
+                {name}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
-      </Select> */}
+      </Select>
+      <Button onClick={clearFilters} variant="destructive" className="sm:w-1/2">
+        Clear Filters
+      </Button>
+
     </div>
 
     {loadingJobs && (
