@@ -33,7 +33,7 @@ const PostJobs = () => {
     register,
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
       location: "",
@@ -43,11 +43,11 @@ const PostJobs = () => {
     resolver: zodResolver(schema),
   });
 
-  const{ fn: fnCompanies, data: companies, loading: loadingCompanies} = useFetch(getCompanies);
-
-  useEffect(()=>{
-    if(isLoaded) fnCompanies();
-  }, [isLoaded]);
+  const{ 
+    fn: fnCompanies, 
+    data: companies, 
+    loading: loadingCompanies
+  } = useFetch(getCompanies);
 
   useEffect(()=>{
     if(isLoaded) fnCompanies();
@@ -87,7 +87,7 @@ const PostJobs = () => {
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4 pb-0">
         <Input placeholder="Job Title" {...register("title")}/>
-        {errors.title && <p className="text-red-600">{error.title.message}</p>}
+        {errors.title && <p className="text-red-600">{errors.title.message}</p>}
 
         <Textarea placeholder="Job Description" {...register("description")} />
         {errors.description && (
@@ -154,7 +154,7 @@ const PostJobs = () => {
         {errors.location && (
           <p className="text-red-600">{errors.location.message}</p>
         )}
-        {errors.location && (
+        {errors.company_id && (
           <p className="text-red-600">{errors.company_id.message}</p>
         )}
 

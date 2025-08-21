@@ -6,36 +6,37 @@ import { BarLoader } from "react-spinners";
 import ApplicationCard from "./application-card";
 
 const CreatedApplications = () => {
+  const { user } = useUser();
 
-    const { user } = useUser();
+  const {
+    fn: fnApplications,
+    data: applications,
+    loading: loadingApplications,
+  } = useFetch(getApplications, {
+    user_id: user.id,
+  });
 
-    const {
-        fn: fnApplications,
-        data: applications,
-        loading: loadingApplications,
-    } = useFetch(getApplications, {
-        user_id: user.id,
-    });
+  useEffect(() => {
+    fnApplications();
+  }, []);
 
-    useEffect(()=>{
-        fnApplications();
-    }, []);
-
-    if(loadingApplications){
-    return <BarLoader className="mb-4" width={"100%"} color="#36d7b7"/>;
+  if (loadingApplications) {
+    return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
 
   return (
     <div className="flex flex-col gap-2">
-        {applications?.map((application)=>{
-            return (
-            <ApplicationCard 
-              key={application.id} 
-              application={application} 
-              isCandidate
-            />
-            );
-        })}
+      {applications && applications.length > 0 ? (
+        applications.map((application) => (
+          <ApplicationCard
+            key={application.id}
+            application={application}
+            isCandidate
+          />
+        ))
+      ) : (
+        <p className="text-gray-400 text-center pt-7">No jobs applied yet</p>
+      )}
     </div>
   );
 };

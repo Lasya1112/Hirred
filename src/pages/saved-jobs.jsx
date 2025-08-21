@@ -44,7 +44,7 @@ const SavedJobs = () => {
             
           })
         ): (
-          <div>No Saved Jobs Found </div>
+          <p className="text-gray-400 text-center pl-55 pt-7">No jobs saved yet</p>
         )}
       </div>
     )}
