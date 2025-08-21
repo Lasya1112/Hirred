@@ -49,7 +49,7 @@ const Header = () => {
             )}
             <UserButton appearance={{
               elements: {
-                avatarBox: "w-40 h-40",
+                avatarBox: "!w-10 !h-10",
               },
             }}
             >
