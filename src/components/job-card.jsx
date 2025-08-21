@@ -3,17 +3,20 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Heart, MapPinIcon, Trash, Trash2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { saveJob } from "@/api/apiJobs";
+import { deleteJobs, saveJob } from "@/api/apiJobs";
 import { useEffect, useState } from "react";
 import useFetch from "@/hooks/use-fetch";
+import { BarLoader } from "react-spinners";
 
 const JobCard = ({
     job,
     isMyJob = false,
     savedInit = false,
-    onJobSaved=()=>{},
+    onJobAction=()=>{},
 }) => {
     const [saved, setSaved] = useState(savedInit);
+    const {user} = useUser(); 
+
     const {
         fn: fnSavedJobs,
         data: savedJob,
@@ -22,13 +25,24 @@ const JobCard = ({
         alreadySaved : saved,
     });
 
-    const {user} = useUser(); 
-    const handleSaveJobs=async()=>{
+    const handleSaveJobs = async() => {
         await fnSavedJobs({
             user_id:user.id,
             job_id:job.id,
         });
-        onJobSaved();
+        onJobAction();
+    };
+
+    const {
+        fn: fnDeleteJob,
+        loading: loadingDeleteJob,
+    } = useFetch(deleteJobs, {
+        job_id: job.id,
+    });
+
+    const handleDeleteJobs = async() => {
+        await fnDeleteJob();
+        onJobAction();
     };
 
     useEffect(()=>{
@@ -38,15 +52,19 @@ const JobCard = ({
 
   return (
   <Card className="flex flex-col">
+    {loadingDeleteJob && (
+        <BarLoader className="mb-4" width={"100%"} color="#36d7b7"/>
+    )}
     <CardHeader>
         <CardTitle className="flex justify-between font-bold">
             {job.title}
 
-            {!isMyJob && (
+            {isMyJob && (
                 <Trash2Icon 
-                // fill="red" 
+                fill="red" 
                 size={18} 
                 className="text-red-300 cursor-pointer"
+                onClick={handleDeleteJobs}
                 />
             )}
         </CardTitle>
@@ -63,7 +81,7 @@ const JobCard = ({
         {job.description.substring(0,job.description.indexOf("."))}
     </CardContent>
     <CardFooter className={"flex gap-2"}>
-        <Link to={`/job/${job.id}`} className="flex-1">
+        <Link to={`/jobs/${job.id}`} className="flex-1">
            <Button variant="secondary" className="w-full cursor-pointer">
              More Details
            </Button>
