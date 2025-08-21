@@ -14,12 +14,14 @@ const ApplicationCard = ({application, isCandidate = false}) => {
         link.click();
     };
 
-    const{
+    const {
         fn: fnHiringStatus,
         loading: loadingHiringStatus,
     } = useFetch(updateApplicationStatus , {
         job_id: application.job_id,
+        candidate_id: application.candidate_id,
     });
+
 
     const handleStatusChange = (status)=> {
         fnHiringStatus(status);

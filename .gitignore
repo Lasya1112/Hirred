@@ -7,18 +7,69 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Build output
+dist/
+dist-ssr/
+build/
+out/
+.next/
+.cache/
+
+# Local environment files (keep secrets out of repo)
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Testing
+coverage/
+*.lcov
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+*.local
+*.tgz
+
+# Supabase and other keys/secrets
+supabase/config.json
+firebase.json
+firebase-debug.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Cache
+.cache/
+npm-cache/
+.eslintcache
+
+# Storybook build
+storybook-static/
+
+# Optional: Ignore compiled assets if they are generated
+public/build/

@@ -34,21 +34,23 @@ export async function applyToJob(token, _, jobData){
     return data;
 }
 
-export async function updateApplicationStatus(token, {job_id}, status){
+export async function updateApplicationStatus(token, { job_id, candidate_id }, status) {
     const supabase = await supabaseClient(token);
 
-    const {data, error} = await supabase
-    .from("applications")
-    .update({status})
-    .eq("job_id",job_id)
-    .select();
+    const { data, error } = await supabase
+        .from("applications")
+        .update({ status })
+        .eq("job_id", job_id)
+        .eq("candidate_id", candidate_id)
+        .select();
 
-    if(error || data.length === 0){
+    if (error || data.length === 0) {
         console.error("Error updating application status:", error);
         return null;
     }
     return data;
 }
+
 
 export async function getApplications(token, {user_id}){
     const supabase = await supabaseClient(token);
