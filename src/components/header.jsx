@@ -28,8 +28,11 @@ const Header = () => {
     <>
     <nav className="py-4 flex justify-between items-center" >
         <Link>
-        <img src="/logo.jpg" className="h-20"/>
-        </Link>
+        <div className="h-20 w-20 bg-gradient-to-r from-emerald-300 to-sky-400 flex items-center justify-center rounded-full">
+          <img src="/logo_circle.png" className="h-18 w-18 object-cover rounded-full" />
+        </div>
+      </Link>
+
 
         <div className="flex gap-8">
           <SignedOut>
